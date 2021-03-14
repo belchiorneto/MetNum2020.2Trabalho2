@@ -1,5 +1,5 @@
-#include "Interface.cpp"
 #include "Metodos.cpp"
+#include "Interface.cpp"
 
 #include<vector>
 #include<iostream>
@@ -66,7 +66,6 @@ int main() {
             resposta = metodos.fatoracaoLuNormal();
             interface.dadosSaida(resposta);
             resposta = metodos.fatoracaoLDP();
-            //interface.matrizPrint(metodos.getA);
             interface.respostaLDP(resposta);
             interface.conclusaoFinal(metodos.conclusao());
             decisao = 0;
@@ -98,11 +97,6 @@ int main() {
             // mesmo que a opcao "1", fica como padrao
             // monta tela inicial
             interface.header();
-            //interface.menu();
-            //interface.descricao();
-            //interface.menuInicial(&foguetes, &E);
-            //interface.loopParametros(&foguetes, &iteracoes, &E, &casasdecimais, &AoT, vetor_metodos);
-            //vetor_metodos[0].setGravaDados(foguetes, iteracoes);
             break;
         }
         cin >> decisao;   
