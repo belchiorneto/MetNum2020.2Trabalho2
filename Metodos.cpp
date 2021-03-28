@@ -9,6 +9,8 @@ class Metodos {
     vector<vector<float>> A;    //Matriz de coeficientes
     vector<float> f;            //Vetor de termos independentes.
     vector<float> solucao;      //Para armazenar o vetor solucao
+    vector<float> erroAbs;      //Para armazenar o vetor com erros absolutos
+    vector<float> erroRel;      //Para armazenar o vetor com erros relativos
     vector<vector<float>> matrizL; 
     vector<vector<float>> matrizU;
     vector<vector<float>> matrizD;
@@ -49,11 +51,11 @@ class Metodos {
     vector<vector<float>> getMatrizD();
     vector<vector<float>> getMatrizP();
     void setF(vector<float> f);
-    bool conclusao();
+    vector<float> conclusao();
     // fim prototipos das funcoes usadas nesse arquivo
     
     Metodos(){ // construtor
-
+        this->A = this->bench; // inicia com os dados do bechmark
     }
 };
 
@@ -115,7 +117,7 @@ Parametro de entrada: inteiro representando o percentual
 void Metodos::ajuste(float porcento){
     for(int i = 0; i<this->A.size(); i++){
         for(int j = 0; j<this->A.size(); j++){
-            this->A[i][j] = this->bench[i][j] +  (this->bench[i][j] * (porcento / 100));
+            this->A[i][j] = this->A[i][j] +  (this->A[i][j] * (porcento / 100));
         }
     }
     setTam(A.size());
@@ -271,10 +273,44 @@ vector<float> Metodos::fatoracaoLDP() {
     return x;
 }
 
-bool Metodos::conclusao() {
-    for(int i=0; i<solucao.size(); i++) {
-        if(solucao[i] > 2)
-            return true;
+vector<float> Metodos::conclusao() {
+    float maiorErro = 0;
+    for(int i=0; i<this->solucao.size(); i++) {
+        if(this->solucao[i] > maiorErro){
+            maiorErro = this->solucao[i];
+        }
+        if(isnan(this->solucao[i])){
+            maiorErro = NAN;
+        }
     }
-    return false;
+    float erroAbs = maiorErro; // erro absoluto
+    float erroRel = (maiorErro / 2) * 100; // erro relativo, em porcentual
+        std::vector<std::string> resp;
+        resp.push_back("cair");
+        resp.push_back("explodir");
+        resp.push_back("cair na praia do futuro");
+        resp.push_back("cair na cabeça do bozo");
+        resp.push_back("ficar desgovernado e cair na lua");
+        resp.push_back("virar fumaça");
+        resp.push_back("pro ferro velho");
+        
+        srand (time(NULL));
+
+        int numResp = rand() % resp.size();
+        cout <<"Conclusão:\n";
+        if(isnan(maiorErro)) {
+            cout <<"Não foi possível calcular o resultado :(\n";
+            return this->solucao;
+        }
+        if (maiorErro > 2) {
+            
+            cout <<"Com um deslocamento absoluto de "<<erroAbs<<" cm\n";
+            cout <<"relativamente a " << erroRel << "% do erro pertmitido\n";
+            cout <<"o foguete infelizmente vai "<< resp[numResp] << " ):\n\n";
+        }else{
+            cout <<"Com um erro absoluto de "<<erroAbs<<" cm\n";
+            cout <<"relativamente a " << erroRel << "% do erro pertmitido\n";
+            cout <<"o foguete não irá cair (:\n\n";
+        }
+    return this->solucao;
 }

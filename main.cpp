@@ -26,6 +26,7 @@ int main() {
             // primeira opcao, onde sao definidos o numero de foquetes e o ajuste
             // monta tela inicial
             system("clear");
+            
             interface.header();
             interface.menu();
             interface.descricao();
@@ -39,11 +40,16 @@ int main() {
             metodos.setA(minhamatriz);
             metodos.setTam(n);
             metodos.setF(independente);
+            interface.matrizPrint(metodos.getA());
             resposta = metodos.fatoracaoLuNormal();
+
             interface.dadosSaida(resposta);
+            
+
             resposta = metodos.fatoracaoLDP();
             interface.respostaLDP(resposta);
-            interface.conclusaoFinal(metodos.conclusao());
+            metodos.conclusao();
+
             
             decisao = 0;
             interface.inicioCarro();
@@ -51,6 +57,7 @@ int main() {
             cout<<"Os dados foram calculados! tecle 2 para detalhes de implementação:  ";
             break;
         case 2:
+            cout<<"DECISAO:  " << decisao << "\n\n";
             matrizL = metodos.getMatrizL();
             matrizU = metodos.getMatrizU();
             matrizD = metodos.getMatrizD();
@@ -63,11 +70,13 @@ int main() {
             break;
         case 3: // benchmark
             metodos.setBench();
+            interface.matrizPrint(metodos.getA());
             resposta = metodos.fatoracaoLuNormal();
             interface.dadosSaida(resposta);
             resposta = metodos.fatoracaoLDP();
             interface.respostaLDP(resposta);
-            interface.conclusaoFinal(metodos.conclusao());
+            resposta = metodos.conclusao();
+            interface.conclusaoFinal(resposta);
             decisao = 0;
             interface.inicioCarro();
             cout << "\t  ";
@@ -81,11 +90,13 @@ int main() {
             cout<<"\r\t\tporcentagem de ajuste: ";
             cin >> tmp;
             metodos.ajuste(tmp);
+            interface.matrizPrint(metodos.getA());
             resposta = metodos.fatoracaoLuNormal();
             interface.dadosSaida(resposta);
             resposta = metodos.fatoracaoLDP();
             interface.respostaLDP(resposta);
-            interface.conclusaoFinal(metodos.conclusao());
+            resposta = metodos.conclusao();
+            interface.conclusaoFinal(resposta);
             
             decisao = 0;
             interface.inicioCarro();
@@ -94,12 +105,14 @@ int main() {
             break;
             
         default:    
+            cout<<"DECISAO:  " << decisao << "\n\n";
             // mesmo que a opcao "1", fica como padrao
             // monta tela inicial
             interface.header();
             break;
         }
-        cin >> decisao;   
+        cin >> decisao;
+        
     }while(decisao != 0);
     return 0;
 }

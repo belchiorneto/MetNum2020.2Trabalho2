@@ -22,18 +22,15 @@ class Interface {
     void menu();
     void dadosSaida(vector<float> &vetorResposta);
     void respostaLDP(vector<float> &vetorResposta);
-    void conclusaoFinal(bool decisao);
+    void conclusaoFinal(vector<float> &vetorResposta);
     void detalhes(vector<vector<float>> matrizA, vector<vector<float>> &matrizL, vector<vector<float>> matrizU, vector<vector<float>> matrizD, vector<vector<float>> matrizP); 
     void matrizPrint(vector<vector<float>> matriz);
     void vetorPrint(vector<float> vetor);
 
-  //  void printparametros(int foguetes, int iteracoes, float E, float casasdecimais, bool AoT);
     void menuInicial(vector<vector<float>> &minhamatriz, vector<float> &independente, int *n);
-    //void loopParametros(int *foguetes, int *iteracoes, float *E, float *casasdecimais, bool *AoT, vector<Metodos>& vetor_metodos);
-    //void allParametros(int *foguetes, int *iteracoes, float *E, float *casasdecimais, bool *AoT, vector<Metodos>& vetor_metodos);
     
     void mostradados(int foguetes, int casasdecimais);
-    //void analisar(vector<Metodos> vetor_metodos, int foguetes, int iteracoes);
+  
     void decisaoFinal(bool *decisao);
     Interface(){
 
@@ -129,16 +126,10 @@ class Interface {
         
     }
 
-    void Interface::conclusaoFinal(bool decisao) {
+    void Interface::conclusaoFinal(vector<float> &vetorResposta) {
         cout << endl;
         inicioCarro();
-        cout << "\t  ";
-        if(decisao == true) {
-            cout << "\n O foguete cairá." << endl;
-        }
-        else {
-            cout << "\n O foguete nao caira" << endl;
-        }
+        
     }
 
     void Interface::detalhes(
