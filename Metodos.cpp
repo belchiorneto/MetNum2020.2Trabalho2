@@ -8,13 +8,13 @@ class Metodos {
     int tam;                    //Numero de deslocamentos
     vector<vector<float>> A;    //Matriz de coeficientes
     vector<float> f;            //Vetor de termos independentes.
-    vector<float> solucao;
-    vector<vector<float>> matrizL;
+    vector<float> solucao;      //Para armazenar o vetor solucao
+    vector<vector<float>> matrizL; 
     vector<vector<float>> matrizU;
     vector<vector<float>> matrizD;
     vector<vector<float>> matrizP;
 
-    // para benchmark
+    // para benchmark,
     vector<vector<float>> bench = {
         {3, -2, 1},
         {1, -3, 4},
@@ -23,7 +23,10 @@ class Metodos {
     vector<float> benchIndependente = {
         8, 6, 11
     };
+    
+    // inicio prototipos das funcoes usadas nesse arquivo
     public:
+    
     void setBench();
     void ajuste(float porcento);    
     void setA(vector<vector<float>> matriz);
@@ -47,19 +50,15 @@ class Metodos {
     vector<vector<float>> getMatrizP();
     void setF(vector<float> f);
     bool conclusao();
-    Metodos(){
+    // fim prototipos das funcoes usadas nesse arquivo
+    
+    Metodos(){ // construtor
 
     }
 };
 
-void Metodos::ajuste(float porcento){
-    for(int i = 0; i<this->A.size(); i++){
-        for(int j = 0; j<this->A.size(); j++){
-            this->A[i][j] = this->bench[i][j] +  (this->bench[i][j] * (porcento / 100));
-        }
-    }
-    setTam(A.size());
-}
+
+// inicio dos setters
 void Metodos::setF(vector<float> f){
     this->f = f;   
 }
@@ -78,7 +77,9 @@ void Metodos::setA(vector<vector<float>> matriz) {
     this->A = matriz;
     this->bench = matriz;
 }
+// fim dos setters
 
+// inicio dos getters
 vector<vector<float>> Metodos::getA() {
     return this->A;
 }
@@ -104,6 +105,26 @@ int Metodos::getTam() {
     return this->tam;
 }
 
+// fim dos getters
+
+/*
+Esta funcao ajusta os valores do benchmark de acordo com um 
+percentual informado pelo usuario
+Parametro de entrada: inteiro representando o percentual
+*/
+void Metodos::ajuste(float porcento){
+    for(int i = 0; i<this->A.size(); i++){
+        for(int j = 0; j<this->A.size(); j++){
+            this->A[i][j] = this->bench[i][j] +  (this->bench[i][j] * (porcento / 100));
+        }
+    }
+    setTam(A.size());
+}
+
+/*
+Esta funcao incializa a matriz L
+preenchendo com 1 a diagonal principal e com 0 o restante
+*/
 void Metodos::iniciarMatrizL() {
     matrizL.resize(this->getTam());
     for(int i=0; i<this->getTam(); i++) {
@@ -115,6 +136,10 @@ void Metodos::iniciarMatrizL() {
     }
 }
 
+/*
+Esta funcao incializa a matiz U
+preenchendo os dados desta com os dados da Matriz A
+*/
 void Metodos::iniciarMatrizU() {
     matrizU.resize(this->getTam());
     for(int i=0; i<this->getTam(); i++) {
@@ -125,18 +150,21 @@ void Metodos::iniciarMatrizU() {
     }
 }
 
+/*
+Implementacao da faturacao LU normal
+*/
 vector<float> Metodos::fatoracaoLuNormal() {
     int iteracao = 0;
     float pivo;
     float multiplicador;
 
     for(int j=0; j<this->getTam(); j++) {
-        pivo = matrizU[j][j];
+        pivo = matrizU[j][j]; // armazena um pivo
         for(int i=j+1; i<matrizU.size(); i++) {
-            multiplicador = matrizU[i][j]/pivo;
-            matrizL[i][j] = multiplicador;
+            multiplicador = matrizU[i][j]/pivo; // calcula o multiplicador
+            matrizL[i][j] = multiplicador; // armazena o multiplocador na matriz L
             matrizU[i] = pivoteamento(matrizU[iteracao],matrizU[i],multiplicador);
-            multiplicador = matrizU[i][j]/pivo;
+            multiplicador = matrizU[i][j]/pivo; // se ta funcionando, naum mexa :)
         }
         iteracao++;
     }
